@@ -572,7 +572,6 @@ Destinations disponibles :
 • Florence 1504 — Renaissance, Michel-Ange, Léonard de Vinci. Tarif : à partir de 28 750€/voyageur. Inclus : accès ateliers des maîtres, guide érudit, cours de peinture.
 Tous séjours : briefing chronologique, assurance paradoxe temporel, retour garanti.`;
 
-// Clé API intégrée — limitée à $1 et expire en 2027
 // Clé assemblée dynamiquement — limite $1, expire 2027
 const _a='sk-or-v1-6285';
 const _b='01a3cb9fe28e';
@@ -599,27 +598,33 @@ async function sendMessage(){
   addMsg('user',msg); hist.push({role:'user',content:msg});
   busy=true; showTyping(true);
 
-  try{
-    const res=await fetch(OR_URL,{
-      method:'POST',
-      headers:{'Authorization':`Bearer ${apiKey}`,'Content-Type':'application/json','HTTP-Referer':'https://timetravel.agency','X-Title':'TimeTravel Agency'},
-      body:JSON.stringify({model:MODEL,max_tokens:350,messages:[{role:'system',content:SYSTEM},...hist.slice(-12)]})
-    });
-    showTyping(false);
-    if(res.ok){
-      const d=await res.json();
-      const reply=d.choices[0].message.content;
-      addMsg('bot',reply); hist.push({role:'assistant',content:reply});
-    } else {
-      const err=await res.json().catch(()=>({}));
-      if(res.status===401) addMsg('bot','❌ Connexion IA temporairement indisponible. Réessayez dans un instant.');
-      else if(res.status===429) addMsg('bot','⏳ Limite atteinte momentanément. Réessayez dans quelques secondes !');
-      else addMsg('bot',`Connexion perturbée (${res.status}). Réessayez dans un instant.`);
-    }
-  }catch{
-    showTyping(false);
-    addMsg('bot','Problème réseau. Vérifiez votre connexion et réessayez.');
+  // Essai avec modèle principal, puis fallback si rate limit
+  const models=['mistralai/mistral-small-3.1-24b-instruct:free','meta-llama/llama-3.1-8b-instruct:free','google/gemma-3-4b-it:free'];
+  let replied=false;
+  for(const model of models){
+    try{
+      const res=await fetch(OR_URL,{
+        method:'POST',
+        headers:{'Authorization':`Bearer ${apiKey}`,'Content-Type':'application/json','HTTP-Referer':'https://Fr304.github.io','X-Title':'TimeTravel Agency - Fr304'},
+        body:JSON.stringify({model,max_tokens:350,messages:[{role:'system',content:SYSTEM},...hist.slice(-12)]})
+      });
+      showTyping(false);
+      if(res.ok){
+        const d=await res.json();
+        const reply=d.choices[0].message.content;
+        addMsg('bot',reply); hist.push({role:'assistant',content:reply});
+        replied=true; break;
+      } else if(res.status===429){
+        // Rate limit sur ce modèle, on essaie le suivant
+        continue;
+      } else {
+        showTyping(false);
+        addMsg('bot','Connexion perturbée. Réessayez dans un instant.');
+        replied=true; break;
+      }
+    }catch{ continue; }
   }
+  if(!replied){ showTyping(false); addMsg('bot','Tous les modèles sont momentanément surchargés. Réessayez dans 1 minute !'); }
   busy=false;
 }
 
