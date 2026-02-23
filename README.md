@@ -30,7 +30,7 @@ https://fr304.github.io/timetravel-agency/
 * **Code :** Structure initiale générée via **Bolt.new** (Claude 3.5 Sonnet) et affinée manuellement.
 * **Modèle IA :** Mistral AI via l'agrégateur OpenRouter.
 * **Prompts :** Définition de la personnalité de Chronos : "Expert historique, ton luxueux et professionnel".
-* **Assets :** Images créées par notre groupe durant la Session 1.
+* **Assets :** Images créées durant la Session 1.
 
 ---
 *Projet Pédagogique - M1/M2 Digital & IA*
