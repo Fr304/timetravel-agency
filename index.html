@@ -615,11 +615,11 @@ async function sendMessage(){
         addMsg('bot',reply); hist.push({role:'assistant',content:reply});
         replied=true; break;
       } else if(res.status===429){
-        // Rate limit sur ce modèle, on essaie le suivant
         continue;
       } else {
         showTyping(false);
-        addMsg('bot','Connexion perturbée. Réessayez dans un instant.');
+        const errBody2 = await res.json().catch(()=>({}));
+        addMsg('bot',`Erreur ${res.status} (${model.split('/')[1]}): ${JSON.stringify(errBody2).slice(0,120)}`);
         replied=true; break;
       }
     }catch{ continue; }
