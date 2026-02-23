@@ -39,13 +39,13 @@
   /* === HERO === */
   #hero { min-height:100vh; position:relative; overflow:hidden; display:flex; align-items:center; justify-content:center; padding:120px 48px 80px; }
 
-  /* Real photo: Eiffel Tower at night, beautiful and iconic */
+  /* Hero — Paris 1889 Image HERO generée Session 1 */
   .hero-img {
     position:absolute; inset:0;
-    background:url('https://images.unsplash.com/photo-1543349689-9a4d426bee8e?w=1600&auto=format&fit=crop&q=80') center/cover no-repeat;
+    background:url('https://Fr304.github.io/timetravel-agency/images/Paris%201889%20-%20Image%20HERO_format%20169.png') center/cover no-repeat;
     transform:scale(1.06);
     animation:heroZoom 20s ease-in-out infinite alternate;
-    filter:brightness(.22) sepia(.4);
+    filter:brightness(.28) sepia(.3);
   }
   @keyframes heroZoom { from{transform:scale(1.06)} to{transform:scale(1.13)} }
   .hero-overlay { position:absolute; inset:0; background:linear-gradient(to bottom,rgba(8,8,8,.35) 0%,rgba(8,8,8,.05) 40%,rgba(8,8,8,.65) 75%,rgba(8,8,8,1) 100%); }
@@ -90,27 +90,35 @@
 
   .destination-card { position:relative; height:640px; overflow:hidden; cursor:none; background:var(--bg3); }
 
-  /* Real Unsplash images — public, no-auth CDN */
+  /* Carrousel d'images — 3 images par destination (générées Session 1) */
   .card-img {
     position:absolute; inset:0;
     background-size:cover; background-position:center;
-    transition:transform .7s ease,filter .5s ease;
+    transition:opacity 1.2s ease, transform .7s ease, filter .5s ease;
     filter:brightness(.52) saturate(.75);
   }
   .destination-card:hover .card-img { transform:scale(1.07); filter:brightness(.42) saturate(.85); }
 
-  /* Paris: Tour Eiffel vintage / golden hour */
-  .card-paris .card-img {
-    background-image:url('https://images.unsplash.com/photo-1499856871958-5b9627545d1a?w=900&auto=format&fit=crop&q=80');
+  /* Slides carrousel */
+  .card-slide {
+    position:absolute; inset:0;
+    background-size:cover; background-position:center;
+    opacity:0;
+    transition:opacity 1.4s ease;
   }
-  /* Crétacé: dense tropical jungle prehistoric feel */
-  .card-cretace .card-img {
-    background-image:url('https://images.unsplash.com/photo-1448375240586-882707db888b?w=900&auto=format&fit=crop&q=80');
+  .card-slide.active { opacity:1; }
+
+  /* Indicateurs carrousel */
+  .card-dots {
+    position:absolute; top:20px; right:20px;
+    display:flex; gap:6px; z-index:10;
   }
-  /* Florence: duomo cathedral renaissance architecture */
-  .card-florence .card-img {
-    background-image:url('https://images.unsplash.com/photo-1543070060-6fd76aa7e4e9?w=900&auto=format&fit=crop&q=80');
+  .card-dot {
+    width:6px; height:6px; border-radius:50%;
+    background:rgba(201,168,76,.3);
+    transition:background .4s;
   }
+  .card-dot.active { background:var(--gold); }
 
   .card-gradient { position:absolute; inset:0; background:linear-gradient(to bottom,transparent 20%,rgba(8,8,8,.97) 80%); }
 
@@ -287,9 +295,19 @@
   </div>
   <div class="destinations-grid">
 
-    <!-- Paris 1889 — Photo: Tour Eiffel, Unsplash (photo-1499856871958) -->
-    <div class="destination-card card-paris reveal">
-      <div class="card-img"></div>
+    <!-- Paris 1889 — 3 images générées Session 1 (carrousel automatique) -->
+    <div class="destination-card card-paris reveal" id="card-paris">
+      <!-- Slide 1: HERO format 16:9 -->
+      <div class="card-slide active" style="background-image:url('https://Fr304.github.io/timetravel-agency/images/Paris%201889%20-%20Image%20HERO_format%20169.png')"></div>
+      <!-- Slide 2: Instagram format 1:1 -->
+      <div class="card-slide" style="background-image:url('https://Fr304.github.io/timetravel-agency/images/Paris%201889%20-%20Instagram_format%2011.png')"></div>
+      <!-- Slide 3: Stories/Reels format 9:16 -->
+      <div class="card-slide" style="background-image:url('https://Fr304.github.io/timetravel-agency/images/Paris%201889%20-%20Image%20Stories%20_Reels_format%20916.png')"></div>
+      <div class="card-dots">
+        <div class="card-dot active"></div>
+        <div class="card-dot"></div>
+        <div class="card-dot"></div>
+      </div>
       <div class="card-gradient"></div>
       <div class="card-content">
         <div class="card-year">Belle Époque · 1889</div>
@@ -303,9 +321,19 @@
       </div>
     </div>
 
-    <!-- Crétacé — Photo: jungle tropicale dense, Unsplash (photo-1448375240586) -->
-    <div class="destination-card card-cretace reveal" style="transition-delay:.15s">
-      <div class="card-img"></div>
+    <!-- Crétacé — 3 images générées Session 1 (carrousel automatique) -->
+    <div class="destination-card card-cretace reveal" id="card-cretace" style="transition-delay:.15s">
+      <!-- Slide 1: HERO format 16:9 -->
+      <div class="card-slide active" style="background-image:url('https://Fr304.github.io/timetravel-agency/images/Cr%C3%A9tac%C3%A9%20-%20Image%20HERO_format%20169.png')"></div>
+      <!-- Slide 2: Instagram format 1:1 -->
+      <div class="card-slide" style="background-image:url('https://Fr304.github.io/timetravel-agency/images/Cr%C3%A9tac%C3%A9%20-%20Instagram%20-%20format%2011.png')"></div>
+      <!-- Slide 3: Stories/Reels format 9:16 -->
+      <div class="card-slide" style="background-image:url('https://Fr304.github.io/timetravel-agency/images/Cr%C3%A9tac%C3%A9%20-%20Stories%20Reels%20-%20format%20916.png')"></div>
+      <div class="card-dots">
+        <div class="card-dot active"></div>
+        <div class="card-dot"></div>
+        <div class="card-dot"></div>
+      </div>
       <div class="card-gradient"></div>
       <div class="card-content">
         <div class="card-year">Crétacé Supérieur · -65 M ans</div>
@@ -319,9 +347,19 @@
       </div>
     </div>
 
-    <!-- Florence 1504 — Photo: Duomo de Florence, Unsplash (photo-1543070060) -->
-    <div class="destination-card card-florence reveal" style="transition-delay:.3s">
-      <div class="card-img"></div>
+    <!-- Florence 1504 — 3 images générées Session 1 (carrousel automatique) -->
+    <div class="destination-card card-florence reveal" id="card-florence" style="transition-delay:.3s">
+      <!-- Slide 1: HERO format 16:9 -->
+      <div class="card-slide active" style="background-image:url('https://Fr304.github.io/timetravel-agency/images/Florence%20-%20Renaissance%20Image%20HERO_format%20169.png')"></div>
+      <!-- Slide 2: Instagram format 1:1 -->
+      <div class="card-slide" style="background-image:url('https://Fr304.github.io/timetravel-agency/images/Florence%20-%20Renaissance%20-%20Instagram_format.png')"></div>
+      <!-- Slide 3: Stories/Reels format 9:16 -->
+      <div class="card-slide" style="background-image:url('https://Fr304.github.io/timetravel-agency/images/Florence%20-%20Renaissance_Stories%20-%20Reels.png')"></div>
+      <div class="card-dots">
+        <div class="card-dot active"></div>
+        <div class="card-dot"></div>
+        <div class="card-dot"></div>
+      </div>
       <div class="card-gradient"></div>
       <div class="card-content">
         <div class="card-year">Renaissance Italienne · 1504</div>
@@ -336,10 +374,9 @@
     </div>
   </div>
 
-  <!-- Photo credits (requis Unsplash) -->
+  <!-- Images générées par IA en Session 1 — Midjourney/Runway -->
   <p style="text-align:center;margin-top:24px;font-family:'Space Mono',monospace;font-size:.5rem;letter-spacing:.15em;color:var(--text-dim);text-transform:uppercase;">
-    Photos — <a href="https://unsplash.com/@chriskaridis" target="_blank" style="color:var(--gold-dim);text-decoration:none;">Chris Karidis</a>,
-    <a href="https://unsplash.com" target="_blank" style="color:var(--gold-dim);text-decoration:none;">Unsplash</a>
+    Visuels générés par IA — Session 1 · Projet M1/M2 IA Créatives
   </p>
 </section>
 
@@ -636,7 +673,28 @@ function showTyping(show){
   if(show){msgs.appendChild(row);row.style.display='block';ind.classList.add('show');msgs.scrollTop=msgs.scrollHeight;}
   else{row.style.display='none';ind.classList.remove('show');}
 }
-function sleep(ms){return new Promise(r=>setTimeout(r,ms));}
+// ===== CARROUSEL AUTOMATIQUE — 3 images par destination =====
+// Change toutes les 3 secondes, transition douce
+function initCarousels() {
+  const cards = ['paris', 'cretace', 'florence'];
+  cards.forEach(id => {
+    const card = document.getElementById('card-' + id);
+    if (!card) return;
+    const slides = card.querySelectorAll('.card-slide');
+    const dots = card.querySelectorAll('.card-dot');
+    if (slides.length < 2) return;
+    let current = 0;
+    setInterval(() => {
+      slides[current].classList.remove('active');
+      dots[current].classList.remove('active');
+      current = (current + 1) % slides.length;
+      slides[current].classList.add('active');
+      dots[current].classList.add('active');
+    }, 3000);
+  });
+}
+initCarousels();
+
 </script>
 </body>
 </html>
